@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"math/rand"
 	"os"
-	"time"
 )
 
 type Gender int
@@ -25,64 +24,36 @@ type FinnishNameGenerator interface {
 }
 
 // finnishNameGenerator is a struct that implements FinnishNameGenerator.
-type finnishNameGenerator struct {
-	maleFirstNames   []string
-	femaleFirstNames []string
-	lastNames        []string
-}
+type finnishNameGenerator struct{}
 
 // NewFinnishNameGenerator returns a new FinnishNameGenerator, or error if failed.
-func NewFinnishNameGenerator() (FinnishNameGenerator, error) {
-	maleFirstNames, err := readFileLines("dataset/testdata/male_first_names.txt")
-	if err != nil {
-		return nil, err
-	}
-
-	femaleFirstNames, err := readFileLines("dataset/testdata/female_first_names.txt")
-	if err != nil {
-		return nil, err
-	}
-
-	lastNames, err := readFileLines("dataset/testdata/last_names.txt")
-	if err != nil {
-		return nil, err
-	}
-
-	return &finnishNameGenerator{
-		maleFirstNames:   maleFirstNames,
-		femaleFirstNames: femaleFirstNames,
-		lastNames:        lastNames,
-	}, nil
+func NewFinnishNameGenerator() FinnishNameGenerator {
+	return &finnishNameGenerator{}
 }
 
 func (f *finnishNameGenerator) GenerateFirstName(gender Gender) string {
-	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
-
 	switch gender {
 	case Male:
-		return f.maleFirstNames[rng.Intn(len(f.maleFirstNames))]
+		return maleFirstNames[rand.Intn(len(maleFirstNames))]
 	case Female:
-		return f.femaleFirstNames[rng.Intn(len(f.femaleFirstNames))]
+		return femaleFirstNames[rand.Intn(len(femaleFirstNames))]
 	default:
 		return ""
 	}
 }
 
 func (f *finnishNameGenerator) GenerateFirstNameRandomGender() string {
-	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
-	rngGender := rng.Intn(2)
+	rngGender := rand.Intn(2)
 
 	if rngGender == 0 {
-		return f.maleFirstNames[rng.Intn(len(f.maleFirstNames))]
+		return maleFirstNames[rand.Intn(len(maleFirstNames))]
 	} else {
-		return f.femaleFirstNames[rng.Intn(len(f.femaleFirstNames))]
+		return femaleFirstNames[rand.Intn(len(femaleFirstNames))]
 	}
 }
 
 func (f *finnishNameGenerator) GenerateLastName() string {
-	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
-
-	return f.lastNames[rng.Intn(len(f.lastNames))]
+	return lastNames[rand.Intn(len(lastNames))]
 }
 
 // readFileLines reads the lines of filepath and returns them as a string slice.
