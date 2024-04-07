@@ -1,0 +1,10 @@
+Arvelo,
+Ahtisaari,
+Leppo,
+Ahjopalo,
+Ypyä,
+Rantasalo,
+Mannio,
+Aho,
+Ylänne,
+Linkomies
